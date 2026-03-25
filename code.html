@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LifeLink Emergency Network</title>
+  <style>
+    :root {
+      --blue:#2f80ed;
+      --green:#27ae60;
+      --red:#eb5757;
+      --orange:#f2994a;
+      --purple:#9b51e0;
+      --dark:#1b1b32;
+      --light:#f8f9ff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",sans-serif;}
+    body{background:linear-gradient(135deg,#f8f9ff 0%,#e3f2fd 100%);color:#222;line-height:1.5;}
+    header{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;padding:28px;text-align:center;}
+    nav{display:flex;justify-content:center;gap:18px;margin-top:18px;flex-wrap:wrap;}
+    nav button{background:#fff;color:var(--dark);border:none;padding:8px 16px;border-radius:20px;cursor:pointer;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+    nav button:hover{transform:translateY(-2px);background:#f0f4ff;}
+    main{max-width:1100px;margin:24px auto;padding:0 20px;}
+    section{background:#fff;border-radius:18px;padding:24px;margin-bottom:26px;box-shadow:0 16px 40px rgba(79,114,205,0.15);}
+    h2{margin-bottom:12px;color:var(--dark);}
+    .grid{display:grid;gap:18px;}
+    .cards-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+    .card{background:linear-gradient(135deg,#ffffff,#eaf3ff);border-radius:16px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,0.08);}
+    .badge{display:inline-block;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:12px;}
+    .badge.red{background:rgba(235,87,87,0.15);color:var(--red);}
+    .badge.green{background:rgba(39,174,96,0.15);color:var(--green);}
+    .badge.blue{background:rgba(47,128,237,0.15);color:var(--blue);}
+    form{display:grid;gap:12px;margin-top:12px;}
+    form .group{display:grid;gap:6px;}
+    form input,form select,form textarea{border:1px solid #ccd8ff;border-radius:10px;padding:10px;}
+    form button{background:linear-gradient(135deg,var(--green),#56c596);border:none;color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;cursor:pointer;box-shadow:0 12px 24px rgba(39,174,96,0.25);}
+    form button:hover{opacity:0.9;}
+    table{width:100%;border-collapse:collapse;margin-top:16px;}
+    th,td{padding:10px;border-bottom:1px solid #e3ecff;text-align:left;}
+    th{background:rgba(47,128,237,0.08);color:var(--dark);}
+    .status{font-weight:700;}
+    .status.good{color:var(--green);}
+    .status.low{color:var(--red);}
+    .status.medium{color:var(--orange);}
+    .flex{display:flex;gap:16px;flex-wrap:wrap;}
+    .flex img{border-radius:16px;width:240px;height:160px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+    .alert{background:linear-gradient(135deg,var(--red),#ff8f70);color:#fff;padding:16px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;}
+    .alert button{background:#fff;color:var(--red);border:none;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer;}
+    .mini{font-size:14px;color:#4f5b7a;}
+    .two-col{display:grid;gap:18px;}
+    @media(min-width:850px){.two-col{grid-template-columns:1.2fr 0.8fr;}}
+    footer{background:#0f172a;color:#fff;text-align:center;padding:24px;margin-top:32px;}
+  </style>
+</head>
+<body>
+<header>
+  <h1>LifeLink Emergency & Donation Network</h1>
+  <p>Coordinating emergency response, donors, and care teams in real time</p>
+  <nav>
+    <button onclick="scrollToSection('login')">Login</button>
+    <button onclick="scrollToSection('patients')">Patients</button>
+    <button onclick="scrollToSection('donors')">Donors</button>
+    <button onclick="scrollToSection('organs')">Organs</button>
+    <button onclick="scrollToSection('alerts')">Emergency</button>
+  </nav>
+</header>
+
+<main>
+  <section id="login">
+    <h2>Access Portal</h2>
+    <div class="two-col">
+      <div class="card">
+        <span class="badge blue">Login</span>
+        <form onsubmit="event.preventDefault();showToast('Login successful for '+loginEmail.value);loginForm.reset();" id="loginForm">
+          <div class="group">
+            <label>Email</label>
+            <input id="loginEmail" type="email" required placeholder="doctor@lifelink.org">
+          </div>
+          <div class="group">
+            <label>Password</label>
+            <input type="password" required placeholder="••••••••">
+          </div>
+          <button type="submit">Enter Dashboard</button>
+        </form>
+      </div>
+      <div class="card">
+        <span class="badge green">Register</span>
+        <form onsubmit="registerUser(event)" id="registerForm">
+          <div class="group">
+            <label>Name</label>
+            <input type="text" required placeholder="Dr. Asha Rao">
+          </div>
+          <div class="group">
+            <label>Email</label>
+            <input type="email" required placeholder="team@lifelink.org">
+          </div>
+          <div class="group">
+            <label>Role</label>
+            <select required>
+              <option value="">Choose role</option>
+              <option>Doctor</option>
+              <option>Volunteer</option>
+              <option>Transport Lead</option>
+              <option>Coordinator</option>
+            </select>
+          </div>
+          <button type="submit">Create Account</button>
+        </form>
+        <p class="mini" id="registeredUsers"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="patients">
+    <h2>Patient Tracking</h2>
+    <div class="flex">
+      <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=600&q=80" alt="Emergency ward">
+      <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?auto=format&fit=crop&w=600&q=80" alt="Medical team">
+    </div>
+    <form onsubmit="addPatient(event)">
+      <div class="grid cards-3">
+        <div class="group">
+          <label>Patient Name</label>
+          <input type="text" required placeholder="Kavya Sharma">
+        </div>
+        <div class="group">
+          <label>Blood Group</label>
+          <select required>
+            <option value="">Select</option>
+            <option>O+</option>
+            <option>A+</option>
+            <option>B+</option>
+            <option>AB+</option>
+            <option>O-</option>
+            <option>A-</option>
+            <option>B-</option>
+            <option>AB-</option>
+          </select>
+        </div>
+        <div class="group">
+          <label>Condition</label>
+          <input type="text" required placeholder="Internal bleeding, needs O+">
+        </div>
+      </div>
+      <div class="group">
+        <label>Treatment Plan / Notes</label>
+        <textarea rows="3" placeholder="Stabilize vitals, prep for surgery within 2 hours"></textarea>
+      </div>
+      <button type="submit">Add Patient</button>
+    </form>
+    <table id="patientTable">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Blood</th>
+          <th>Condition</th>
+          <th>Treatment</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="donors">
+    <h2>Donor Coordination</h2>
+    <form onsubmit="addDonor(event)">
+      <div class="grid cards-3">
+        <div class="group">
+          <label>Donor Name</label>
+          <input type="text" required placeholder="Rahul Verma">
+        </div>
+        <div class="group">
+          <label>Organ / Blood</label>
+          <input type="text" required placeholder="O+ Blood / Kidney">
+        </div>
+        <div class="group">
+          <label>Availability</label>
+          <input type="text" required placeholder="Within 45 minutes, Bengaluru">
+        </div>
+      </div>
+      <div class="group">
+        <label>Contact / Notes</label>
+        <textarea rows="3" placeholder="Mobile: 98XXXXXX24, vaccinated, last donation 6 months ago"></textarea>
+      </div>
+      <button type="submit">Register Donor</button>
+    </form>
+    <table id="donorTable">
+      <thead>
+        <tr>
+          <th>Donor</th>
+          <th>Offering</th>
+          <th>Availability</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="organs">
+    <h2>Organ Inventory & Blood Bank</h2>
+    <div class="grid cards-3" id="organCards"></div>
+  </section>
+
+  <section id="alerts">
+    <h2>Live Emergency Desk</h2>
+    <div class="alert">
+      <div>
+        <h3>Level 4 Alert — Multi-vehicle crash, Electronic City</h3>
+        <p>Need 4 units O-, 2 neurosurgeons, 2 ventilators. ETA patients: 25 minutes.</p>
+      </div>
+      <button onclick="showToast('Alert acknowledged by command center')">Acknowledge</button>
+    </div>
+    <div class="grid cards-3" style="margin-top:18px;">
+      <div class="card">
+        <span class="badge red">Ambulances</span>
+        <p class="status medium">6 active | 2 standby | Response 12 min</p>
+        <p class="mini">Nearest units: KA-09-1124, KA-11-4478</p>
+      </div>
+      <div class="card">
+        <span class="badge blue">Doctors Needed</span>
+        <p class="status low">Neurosurgery x2, Trauma x1, Pediatrics x1</p>
+        <p class="mini">Shift updates at 18:00</p>
+      </div>
+      <div class="card">
+        <span class="badge green">Emergency Locations</span>
+        <p class="mini">Command HQ: LifeLink Hospital, Residency Rd</p>
+        <p class="mini">Mobile Units: Hebbal, Whitefield, Koramangala</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  LifeLink © 2025 · Emergency Desk +91-800-111-HELP · Rapid Response. Trusted Care.
+</footer>
+
+<script>
+  const patients=[{name:"Kavya Sharma",blood:"O+",condition:"Internal bleeding, critical",treatment:"Emergency surgery underway"},{name:"Sunil Rao",blood:"A-",condition:"Cardiac arrest stabilized",treatment:"Stent placement, ICU observation"}];
+  const donors=[{name:"Rahul Verma",offer:"O+ Blood",availability:"Within 45 min · Bengaluru",notes:"Mobile 98XXXXXX24"},{name:"Sara Iyer",offer:"Kidney (A+)",availability:"Evaluation complete · Chennai",notes:"Cross-match pending"},{name:"AirMed Corps",offer:"Plasma units",availability:"24/7 · Statewide",notes:"Cold chain ensured"}];
+  const organs=[{type:"Kidney (Left)",status:"Viable in 8 hrs",priority:"High",color:"green"},{type:"Heart",status:"Transport from Pune, 3 hrs left",priority:"Critical",color:"red"},{type:"Liver Segment",status:"Stored at 4°C",priority:"Medium",color:"orange"},{type:"Corneas",status:"Ready · 24 hrs window",priority:"Ready",color:"blue"},{type:"Bone Marrow",status:"HLA match pending",priority:"Medium",color:"orange"},{type:"Blood O-",status:"2 units remaining",priority:"Critical",color:"red"}];
+  const toast=document.createElement("div");
+  toast.style.cssText="position:fixed;bottom:24px;right:24px;background:#1b1b32;color:#fff;padding:14px 22px;border-radius:12px;opacity:0;transition:all .4s;box-shadow:0 16px 32px rgba(0,0,0,0.25);z-index:1000;";
+  document.body.appendChild(toast);
+  function showToast(message){toast.textContent=message;toast.style.opacity="1";toast.style.transform="translateY(0)";setTimeout(()=>{toast.style.opacity="0";toast.style.transform="translateY(12px)";},2600);}
+  function renderPatients(){const tbody=document.querySelector("#patientTable tbody");tbody.innerHTML="";patients.forEach(p=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${p.name}</td><td>${p.blood}</td><td>${p.condition}</td><td>${p.treatment||"—"}</td>`;tbody.appendChild(tr);});}
+  function renderDonors(){const tbody=document.querySelector("#donorTable tbody");tbody.innerHTML="";donors.forEach(d=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${d.name}</td><td>${d.offer}</td><td>${d.availability}</td><td>${d.notes||"—"}</td>`;tbody.appendChild(tr);});}
+  function renderOrgans(){const container=document.getElementById("organCards");container.innerHTML="";organs.forEach(o=>{const card=document.createElement("div");card.className="card";card.innerHTML=`<span class="badge ${o.color}">${o.priority}</span><h3>${o.type}</h3><p class="mini">${o.status}</p>`;container.appendChild(card);});}
+  function addPatient(e){e.preventDefault();const form=e.target;const [name,blood,condition]=Array.from(form.querySelectorAll("input,select")).map(i=>i.value.trim());const treatment=form.querySelector("textarea").value.trim();patients.unshift({name,blood,condition,treatment});renderPatients();showToast("Patient registered: "+name);form.reset();}
+  function addDonor(e){e.preventDefault();const form=e.target;const [name,offer,availability]=Array.from(form.querySelectorAll("input")).map(i=>i.value.trim());const notes=form.querySelector("textarea").value.trim();donors.unshift({name,offer,availability,notes});renderDonors();showToast("Donor added: "+name);form.reset();}
+  function registerUser(e){e.preventDefault();const form=e.target;const name=form.querySelector("input").value.trim();const email=form.querySelector("input[type=email]").value.trim();const role=form.querySelector("select").value;showToast("Registered "+name+" as "+role);document.getElementById("registeredUsers").textContent="Latest registration: "+name+" ("+role+") · "+email;form.reset();}
+  function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:"smooth"});}
+  renderPatients();renderDonors();renderOrgans();
+</script>
+</body>
+</html>

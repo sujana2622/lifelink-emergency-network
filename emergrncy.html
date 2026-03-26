@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LifeLink Emergency Network</title>
+
+  <!-- Link CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>LifeLink Emergency & Donation Network</h1>
+  <p>Coordinating emergency response, donors, and care teams in real time</p>
+
+  <nav>
+    <button onclick="scrollToSection('login')">Login</button>
+    <button onclick="scrollToSection('patients')">Patients</button>
+    <button onclick="scrollToSection('donors')">Donors</button>
+    <button onclick="scrollToSection('organs')">Organs</button>
+    <button onclick="scrollToSection('alerts')">Emergency</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- LOGIN -->
+  <section id="login">
+    <h2>Access Portal</h2>
+
+    <div class="two-col">
+
+      <div class="card">
+        <span class="badge blue">Login</span>
+
+        <form onsubmit="event.preventDefault();showToast('Login successful for '+loginEmail.value);loginForm.reset();" id="loginForm">
+          <div class="group">
+            <label>Email</label>
+            <input id="loginEmail" type="email" required placeholder="doctor@lifelink.org">
+          </div>
+
+          <div class="group">
+            <label>Password</label>
+            <input type="password" required placeholder="••••••••">
+          </div>
+
+          <button type="submit">Enter Dashboard</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <span class="badge green">Register</span>
+
+        <form onsubmit="registerUser(event)" id="registerForm">
+          <div class="group">
+            <label>Name</label>
+            <input type="text" required placeholder="Dr. Asha Rao">
+          </div>
+
+          <div class="group">
+            <label>Email</label>
+            <input type="email" required placeholder="team@lifelink.org">
+          </div>
+
+          <div class="group">
+            <label>Role</label>
+            <select required>
+              <option value="">Choose role</option>
+              <option>Doctor</option>
+              <option>Volunteer</option>
+              <option>Transport Lead</option>
+              <option>Coordinator</option>
+            </select>
+          </div>
+
+          <button type="submit">Create Account</button>
+        </form>
+
+        <p class="mini" id="registeredUsers"></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PATIENTS -->
+  <section id="patients">
+    <h2>Patient Tracking</h2>
+
+    <div class="flex">
+      <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=600&q=80">
+      <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?auto=format&fit=crop&w=600&q=80">
+    </div>
+
+    <form onsubmit="addPatient(event)">
+      <div class="grid cards-3">
+
+        <div class="group">
+          <label>Patient Name</label>
+          <input type="text" required>
+        </div>
+
+        <div class="group">
+          <label>Blood Group</label>
+          <select required>
+            <option value="">Select</option>
+            <option>O+</option>
+            <option>A+</option>
+            <option>B+</option>
+            <option>AB+</option>
+            <option>O-</option>
+            <option>A-</option>
+            <option>B-</option>
+            <option>AB-</option>
+          </select>
+        </div>
+
+        <div class="group">
+          <label>Condition</label>
+          <input type="text" required>
+        </div>
+
+      </div>
+
+      <div class="group">
+        <label>Treatment Plan / Notes</label>
+        <textarea rows="3"></textarea>
+      </div>
+
+      <button type="submit">Add Patient</button>
+    </form>
+
+    <table id="patientTable">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Blood</th>
+          <th>Condition</th>
+          <th>Treatment</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- DONORS -->
+  <section id="donors">
+    <h2>Donor Coordination</h2>
+
+    <form onsubmit="addDonor(event)">
+      <div class="grid cards-3">
+
+        <div class="group">
+          <label>Donor Name</label>
+          <input type="text" required>
+        </div>
+
+        <div class="group">
+          <label>Organ / Blood</label>
+          <input type="text" required>
+        </div>
+
+        <div class="group">
+          <label>Availability</label>
+          <input type="text" required>
+        </div>
+
+      </div>
+
+      <div class="group">
+        <label>Contact / Notes</label>
+        <textarea rows="3"></textarea>
+      </div>
+
+      <button type="submit">Register Donor</button>
+    </form>
+
+    <table id="donorTable">
+      <thead>
+        <tr>
+          <th>Donor</th>
+          <th>Offering</th>
+          <th>Availability</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- ORGANS -->
+  <section id="organs">
+    <h2>Organ Inventory & Blood Bank</h2>
+    <div class="grid cards-3" id="organCards"></div>
+  </section>
+
+  <!-- ALERTS -->
+  <section id="alerts">
+    <h2>Live Emergency Desk</h2>
+
+    <div class="alert">
+      <div>
+        <h3>Level 4 Alert — Multi-vehicle crash, Electronic City</h3>
+        <p>Need 4 units O-, 2 neurosurgeons, 2 ventilators. ETA patients: 25 minutes.</p>
+      </div>
+      <button onclick="showToast('Alert acknowledged')">Acknowledge</button>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  LifeLink © 2025 · Emergency Desk +91-800-111-HELP
+</footer>
+
+<!-- Link JS -->
+<script src="script.js"></script>
+
+</body>
+</html>
